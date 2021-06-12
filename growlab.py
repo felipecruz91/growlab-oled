@@ -34,10 +34,6 @@ except ImportError:
 
 from sensors import growbme280, growbmp280, grownosensor
 
-# TODO: custom font bitmaps for up/down arrows
-# TODO: Load histogram
-
-
 def bytes2human(n):
     """
     >>> bytes2human(10000)
@@ -55,31 +51,10 @@ def bytes2human(n):
             return '%s%s' % (value, s)
     return "%sB" % n
 
-
-def cpu_usage():
-    # load average, uptime
-    uptime = datetime.now() - datetime.fromtimestamp(psutil.boot_time())
-    av1, av2, av3 = os.getloadavg()
-    return "Ld:%.1f %.1f %.1f Up: %s" \
-        % (av1, av2, av3, str(uptime).split('.')[0])
-
-
-def mem_usage():
-    usage = psutil.virtual_memory()
-    return "Mem: %s %.0f%%" \
-        % (bytes2human(usage.used), 100 - usage.percent)
-
-
 def disk_usage(dir):
     usage = psutil.disk_usage(dir)
     return "SD:  %s %.0f%%" \
         % (bytes2human(usage.used), usage.percent)
-
-
-def network(iface):
-    stat = psutil.net_io_counters(pernic=True)[iface]
-    return "%s: Tx%s, Rx%s" % \
-           (iface, bytes2human(stat.bytes_sent), bytes2human(stat.bytes_recv))
 
 def stats(device, readings):
     # use custom font
@@ -88,21 +63,10 @@ def stats(device, readings):
 
     with canvas(device) as draw:
         draw.text((0, 0), "Time: %s" % (readings["time"]), font=font2, fill="white")
-        # draw.text((0, 0), cpu_usage(), font=font2, fill="white")
-        if device.height >= 32:
-            draw.text((0, 14), "Temp: %s C" % ('{:3.3}'.format(readings["temperature"])), font=font2, fill="white")
-            draw.text((0, 26), "Humidity: %s%%" % ('{:3.3}'.format(readings["humidity"])), font=font2, fill="white")
-            # draw.text((0, 14), mem_usage(), font=font2, fill="white")
-
-        if device.height >= 64:
-            draw.text((0, 38), "Pressure: %s hPa" % ('{:5.5}'.format(readings["pressure"])), font=font2, fill="white")
-            draw.text((0, 50), disk_usage('/'), font=font2, fill="white")
-            # try:
-            #     draw.text((0, 38), network('wlan0'), font=font2, fill="white")
-            # except KeyError:
-            #     # no wifi enabled/available
-            #     pass
-
+        draw.text((0, 14), "Temp: %s C" % ('{:3.3}'.format(readings["temperature"])), font=font2, fill="white")
+        draw.text((0, 26), "Humidity: %s%%" % ('{:3.3}'.format(readings["humidity"])), font=font2, fill="white")
+        draw.text((0, 38), "Pressure: %s hPa" % ('{:5.5}'.format(readings["pressure"])), font=font2, fill="white")
+        draw.text((0, 50), disk_usage('/'), font=font2, fill="white")
 
 def main():
     sensor = None
