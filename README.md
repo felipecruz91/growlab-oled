@@ -1,6 +1,6 @@
 # growlab-oled
 
-This is an add-on for the [Growlab](https://github.com/alexellis/growlab) project to visualize the readings collected by the sensor (temperature, humidity, and pressure) plus the disk usage of your Raspberry Pi (useful if you're taking pictures for the [phototimer](https://github.com/alexellis/phototimer) project).
+This is an add-on for the [Growlab](https://github.com/alexellis/growlab) project to visualize in a OLED i2c screen the readings collected by the sensor (temperature, humidity, and pressure) plus the disk usage of your Raspberry Pi (useful if you're taking pictures for the [phototimer](https://github.com/alexellis/phototimer) project).
 
 ## Hardware
 
